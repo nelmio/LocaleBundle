@@ -128,17 +128,8 @@ class ChangeLanguageExtension extends AbstractLocaleAwareExtension
         $localeToUse = $this->showForeignLanguageNames ? $locale : $this->getLocale();
 
         $languageName = \Locale::getDisplayName($locale, $localeToUse);
-
-        if ($this->showFirstUppercase) {
-            if (!extension_loaded('mbstring')) {
-                throw new \RuntimeException('PHP extension "mbstring" is not loaded. Either load it or disable the "showFirstUppercase" option.');
-            }
-            $encoding = mb_detect_encoding($languageName);
-            $languageName = mb_strtoupper(mb_substr($languageName, 0, 1, $encoding), $encoding)
-                    . mb_substr($languageName, 1, mb_strlen($languageName, $encoding), $encoding);
-        }
+        $languageName = ucfirst(trim($languageName));
 
         return $languageName;
     }
-
 }
